@@ -1,49 +1,31 @@
-import { View, Button, StyleSheet, ImageBackground } from "react-native";
-// import { useHistory } from "react-router-native";
+import { NativeRouter, Switch, Route, BackButton } from "react-router-native";
+import { StyleSheet, StatusBar, Text, View, ToastAndroid } from "react-native";
+import Candidates from "./pages/Candidates";
+import AddCandidate from "./pages/AddCandidate";
+import HomePage from "./pages/HomePage";
 
 export default function App() {
-  // const history = useHistory();
-
-  // function navigateToAllCandidates() {
-  //   history.push("candidates");
-  // }
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require("./assets/school.jpg")}
-        style={styles.image}
-      />
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Vizualizare candidați"
-          style={styles.button}
-          // onPress={navigateToAllCandidates()}
-        />
-        <View style={styles.space} />
-        <Button title="Adăugare candidat" style={styles.button} />
-      </View>
-    </View>
+    <NativeRouter>
+      <BackButton>
+        <View style={styles.container}>
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/candidates" component={Candidates} />
+            <Route exact path="/addCandidate" component={AddCandidate} />
+          </Switch>
+        </View>
+      </BackButton>
+    </NativeRouter>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    backgroundColor: "#fff",
     alignItems: "center",
-  },
-  buttonContainer: {
-    width: 250,
-  },
-  button: {},
-  space: {
-    width: 20,
-    height: 20,
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-    position: "absolute",
+    justifyContent: "space-between",
+    paddingVertical: 24,
   },
 });
