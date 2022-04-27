@@ -2,12 +2,17 @@ import { ScrollView, View, StyleSheet } from "react-native";
 import Candidate from "./Candidate";
 
 export default function CandidateList(props) {
-  function onDeleteChildTask(taskId) {
-    props.onDeleteParentTask(taskId);
+
+  function onDeleteChildCandidate(candidateId) {
+    props.onDeleteParentCandidate(candidateId);
+  }
+
+  function onEditChildCandidate(candidate) {
+    props.onEditParentCandidate(candidate);
   }
 
   return (
-    <View style={styles.taskListContainer}>
+    <ScrollView contentContainerStyle={styles.container}>
       {props.candidates.map((candidate) => (
         <Candidate
           id={candidate.id}
@@ -16,25 +21,21 @@ export default function CandidateList(props) {
           age={candidate.Age}
           CNP={candidate.CNP}
           average={candidate.Average}
-          onDeleteTask={onDeleteChildTask}
+          onDeleteCandidate={onDeleteChildCandidate}
+          onEditCandidate={onEditChildCandidate}
         />
       ))}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  taskListContainer: {
-    // width: "100%",
-    // display: "flex",
+  container: {
     flexDirection: "row",
     alignContent: "center",
     justifyContent: "center",
     alignItems: "center",
     flexWrap: "wrap",
-    // display: "flex",
-    // display: "flex",
-    // flexDirection: "column",
-    // flex: 1,
+    paddingBottom: 90
   },
 });

@@ -1,40 +1,36 @@
-import { View, Text, StyleSheet, Button, TouchableOpacity } from "react-native";
-import { ToastAndroid } from "react-native";
-import { useHistory } from "react-router-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function Candidate(props) {
-  const history = useHistory();
-  const apiUrl =
-    "https://project-tmw-fc69e-default-rtdb.europe-west1.firebasedatabase.app/Candidates";
-
-  function navigateToDetails() {
-    // history.push({
-    //   pathname: "/taskDetails",
-    //   state: props,
-    // });
-  }
-
-  function handleDone() {
-    console.log("pressed done", props.id);
+  function handleEdit() {
+    console.log("edit candidate", props.id);
+    props.onEditCandidate(props);
   }
 
   function handleDelete() {
-    console.log("pressed delete");
-    props.onDeleteTask(props.id);
+    console.log("delete candidate", props.id);
+    props.onDeleteCandidate(props.id);
   }
 
   return (
-    <View style={styles.taskWrapper}>
-      <View style={styles.contentContainer} onTouchEnd={navigateToDetails}>
+    <View style={styles.mainContainer}>
+      <View style={styles.contentContainer}>
         <Text>Nume: {props.name}</Text>
         <Text style={styles.dueContainer}>Varsta: {props.age}</Text>
-        <Text style={styles.textWidth}>CNP: {props.CNP}</Text>
+        <Text>CNP: {props.CNP}</Text>
         <Text>Medie admitere: {props.average}</Text>
       </View>
       <View style={styles.actionsWrapper}>
         <TouchableOpacity
+          onPress={handleEdit}
+          style={[{ backgroundColor: "#3CB371" }, styles.buttonWrapper]}
+        >
+          <Text style={{ color: "white" }}>Modificare date</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.actionsWrapper}>
+        <TouchableOpacity
           onPress={handleDelete}
-          style={[{ backgroundColor: "#d9000b" }, styles.buttonWrapper]}
+          style={[{ backgroundColor: "#d11a2a" }, styles.buttonWrapper]}
         >
           <Text style={{ color: "white" }}>Șterge candidat</Text>
         </TouchableOpacity>
@@ -44,7 +40,7 @@ export default function Candidate(props) {
 }
 
 const styles = StyleSheet.create({
-  taskWrapper: {
+  mainContainer: {
     borderRadius: 8,
     padding: 16,
     margin: 8,
@@ -53,11 +49,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#dfe1f0",
-    // borderColor: "red",
-    // borderWidth: 3,
-    width: "45%",
-    // flex: 10,
+    backgroundColor: "#ededed",
+    // width: "45%",
   },
   actionsWrapper: {
     display: "flex",
@@ -66,9 +59,7 @@ const styles = StyleSheet.create({
   buttons: {
     marginLeft: 8,
   },
-  contentContainer: {
-    // width: "70%",
-  },
+  contentContainer: {},
   dueContainer: {
     color: "black",
   },
@@ -79,9 +70,6 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
     borderRadius: 4,
     marginLeft: 8,
-    marginTop: 12
+    marginTop: 12,
   },
-  textWidth: {
-    //   fontSize: 1
-  }
 });

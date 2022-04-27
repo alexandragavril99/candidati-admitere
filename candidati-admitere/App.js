@@ -1,5 +1,5 @@
 import { NativeRouter, Switch, Route, BackButton } from "react-router-native";
-import { StyleSheet, StatusBar, Text, View, ToastAndroid } from "react-native";
+import { StyleSheet, View} from "react-native";
 import Candidates from "./pages/Candidates";
 import AddCandidate from "./pages/AddCandidate";
 import HomePage from "./pages/HomePage";

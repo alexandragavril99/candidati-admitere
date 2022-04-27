@@ -1,18 +1,10 @@
 import { useLocation } from "react-router-native";
-import {
-  Text,
-  TextInput,
-  View,
-  Switch,
-  StyleSheet,
-  Button,
-  Image,
-} from "react-native";
+import { TextInput, View, StyleSheet, Button, Image } from "react-native";
 import { useState, useEffect } from "react";
 import { ToastAndroid } from "react-native";
 import { useHistory } from "react-router-native";
 
-export default function TaskDetailsPage() {
+export default function AddCandidate() {
   const apiUrl =
     "https://project-tmw-fc69e-default-rtdb.europe-west1.firebasedatabase.app/Candidates";
   const history = useHistory();
@@ -24,49 +16,48 @@ export default function TaskDetailsPage() {
   let isEditing = false;
 
   function handleSubmit() {
-    if (!candidateName || candidateName.length < 3) {
-      ToastAndroid.show("Invalid Task Text!", ToastAndroid.SHORT);
-    } else {
-      const newCandidate = {
-        Name: candidateName,
-        Age: age,
-        Average: average,
-        CNP: CNP,
-      };
+    const newCandidate = {
+      Name: candidateName,
+      Age: age,
+      Average: average,
+      CNP: CNP,
+    };
 
-      if (location.state) {
-        fetch(`${apiUrl}/${location.state.id}.json`, {
-          method: "PUT",
-          body: JSON.stringify(newCandidate),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }).then(() => {
-          ToastAndroid.show("Task edited!", ToastAndroid.SHORT);
-          history.push("/");
-        });
-      } else {
-        fetch(`${apiUrl}.json`, {
-          method: "POST",
-          body: JSON.stringify(newCandidate),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }).then(() => {
-          ToastAndroid.show("Task added!", ToastAndroid.SHORT);
-          history.push("/candidates");
-        });
-      }
+    if (location.state) {
+      fetch(`${apiUrl}/${location.state.id}.json`, {
+        method: "PUT",
+        body: JSON.stringify(newCandidate),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(() => {
+        ToastAndroid.show("Date modificate!", ToastAndroid.SHORT);
+        history.push("/candidates");
+      });
+    } else {
+      fetch(`${apiUrl}.json`, {
+        method: "POST",
+        body: JSON.stringify(newCandidate),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(() => {
+        ToastAndroid.show("Candidat adaugat!", ToastAndroid.SHORT);
+        history.push("/candidates");
+      });
     }
   }
 
-  //   useEffect(() => {
-  //     if (location.state && location.state.id !== "") {
-  //       isEditing = true;
-  //       setCandidateName(location.state.text);
-  //       setAge(location.state.date);
-  //     }
-  //   }, []);
+  useEffect(() => {
+    if (location.state && location.state.id !== "") {
+      isEditing = true;
+      setCandidateName(location.state.name);
+      setAge(location.state.age);
+      setCNP(location.state.CNP);
+      setAverage(location.state.average);
+    }
+  }, []);
+
   return (
     <View style={styles.formContainer}>
       <Image
@@ -99,11 +90,7 @@ export default function TaskDetailsPage() {
       ></TextInput>
 
       <View style={styles.buttonContainer}>
-        <Button
-          onPress={handleSubmit}
-          title="Adăugare candidat"
-          color="#3CB371"
-        ></Button>
+        <Button onPress={handleSubmit} title="SUBMIT" color="#3CB371"></Button>
       </View>
     </View>
   );
